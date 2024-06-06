@@ -1,3 +1,4 @@
+package frontend;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,7 @@ public class Inserir extends JFrame {
         addComponente(panel, vazioLabel, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
         // Carrega a fonte personalizada ou usa a fonte padrão
-        Font fonteBebas = carregarFonte("Bebas.ttf", 30f);
+        Font fonteBebas = loadFont("Bebas.ttf", 30f);
         Font fontePadrao = new Font("Arial", Font.BOLD, 100);
 
         // Rótulo do título da janela
@@ -185,9 +186,12 @@ public class Inserir extends JFrame {
     }
 
     // Método para carregar uma fonte personalizada
-    private Font carregarFonte(String nomeArquivoFonte, float tamanho) {
-        try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(nomeArquivoFonte)).deriveFont(tamanho);
+    private Font loadFont(String fontFileName, float size) {
+        try (InputStream is = getClass().getResourceAsStream(fontFileName)) {
+            if (is == null) {
+                throw new IOException("Font resource not found: " + fontFileName);
+            }
+            return Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             return null;
@@ -205,12 +209,5 @@ public class Inserir extends JFrame {
         gbc.fill = fill;
         gbc.insets = new Insets(5, 5, 5, 5);
         container.add(componente, gbc);
-    }
-
-    // Método principal para executar o programa
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Inserir().setVisible(true);
-        });
     }
 }

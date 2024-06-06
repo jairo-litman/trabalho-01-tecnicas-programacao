@@ -1,7 +1,9 @@
+package frontend;
+
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 // Classe principal que cria a janela de consulta ao catálogo
 public class Consultar extends JFrame {
@@ -75,18 +77,14 @@ public class Consultar extends JFrame {
 
     // Método para carregar uma fonte personalizada
     private Font loadFont(String fontFileName, float size) {
-        try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(fontFileName)).deriveFont(size);
+        try (InputStream is = getClass().getResourceAsStream(fontFileName)) {
+            if (is == null) {
+                throw new IOException("Font resource not found: " + fontFileName);
+            }
+            return Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    // Método principal para executar o programa
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Consultar().setVisible(true);
-        });
     }
 }

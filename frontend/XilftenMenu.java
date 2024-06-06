@@ -1,18 +1,26 @@
+package frontend;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
+import backend.DBManager;
 
 // Classe principal que cria a janela do menu Xilften
 public class XilftenMenu extends JFrame {
+    DBManager dbManager;
 
     // Construtor da classe XilftenMenu
-    public XilftenMenu() {
+    public XilftenMenu(DBManager dbManager) {
+        this.dbManager = dbManager;
+
         setTitle("XILFTEN");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(new Color(229, 9, 14));
+        setVisible(true);
 
         // Painel principal com layout GridBag
         JPanel panel = new JPanel(new GridBagLayout());
@@ -96,8 +104,11 @@ public class XilftenMenu extends JFrame {
 
     // Método para carregar uma fonte personalizada
     private Font loadFont(String fontFileName, float size) {
-        try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(fontFileName)).deriveFont(size);
+        try (InputStream is = getClass().getResourceAsStream(fontFileName)) {
+            if (is == null) {
+                throw new IOException("Font resource not found: " + fontFileName);
+            }
+            return Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             return null;
@@ -133,7 +144,8 @@ public class XilftenMenu extends JFrame {
         }
     }
 
-    // Classe personalizada para gerenciar a interface do usuário dos botões personalizados
+    // Classe personalizada para gerenciar a interface do usuário dos botões
+    // personalizados
     private static class CustomButtonUI extends javax.swing.plaf.basic.BasicButtonUI {
         @Override
         public void installUI(JComponent c) {
@@ -161,12 +173,5 @@ public class XilftenMenu extends JFrame {
             g2.drawRect(0, 0, button.getWidth() - 5, button.getHeight() - 5);
             g2.dispose();
         }
-    }
-
-    // Método principal para executar o programa
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new XilftenMenu().setVisible(true);
-        });
     }
 }

@@ -1,9 +1,11 @@
+package frontend;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 
 // Classe principal que cria a janela de cadastro
 public class Cadastro extends JFrame {
@@ -63,7 +65,7 @@ public class Cadastro extends JFrame {
         categoriaLabel.setFont(sansSerifBoldFont);
         categoriaLabel.setForeground(Color.WHITE);
 
-        String[] opcoes = {"Filme", "Série", "Documentário"};
+        String[] opcoes = { "Filme", "Série", "Documentário" };
         categoriaComboBox = new JComboBox<>(opcoes);
         categoriaComboBox.setSelectedIndex(-1);
         categoriaComboBox.addActionListener(e -> {
@@ -244,18 +246,14 @@ public class Cadastro extends JFrame {
 
     // Método para carregar uma fonte personalizada
     private Font loadFont(String fontFileName, float size) {
-        try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(fontFileName)).deriveFont(size);
+        try (InputStream is = getClass().getResourceAsStream(fontFileName)) {
+            if (is == null) {
+                throw new IOException("Font resource not found: " + fontFileName);
+            }
+            return Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    // Método principal para iniciar a aplicação
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Cadastro().setVisible(true);
-        });
     }
 }
