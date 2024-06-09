@@ -1,3 +1,3 @@
 javac Main.java
 
-java -classpath hsqldb.jar:. Main
+java -cp .:hsqldb.jar Main

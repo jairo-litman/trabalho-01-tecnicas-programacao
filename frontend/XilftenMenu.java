@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
-import backend.DBManager;
+import backend.Manager;
 
 // Classe principal que cria a janela do menu Xilften
 public class XilftenMenu extends JFrame {
-    DBManager dbManager;
+    Manager dbManager;
 
     // Construtor da classe XilftenMenu
-    public XilftenMenu(DBManager dbManager) {
+    public XilftenMenu(Manager dbManager) {
         this.dbManager = dbManager;
 
         setTitle("XILFTEN");
