@@ -119,6 +119,14 @@ public class XilftenMenu extends JFrame {
         // Botão "Remover"
         JButton removerButton = new CustomButton("Remover");
         removerButton.setFont(buttonFont);
+        removerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abre a janela "Consultar" quando o botão "Consultar" for clicado
+                Remover remover = new Remover();
+                remover.setVisible(true);
+            }
+        });
 
         // Adiciona os botões ao painel
         panel.add(cadastrarButton, gbc);

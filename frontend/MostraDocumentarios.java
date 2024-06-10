@@ -22,7 +22,7 @@ public class MostraDocumentarios extends JFrame {
 
     // Construtor da classe Inserir
     public MostraDocumentarios() {
-        setTitle("Séries Cadastradas");
+        setTitle("Documentarios Cadastrados");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
 
@@ -48,7 +48,7 @@ public class MostraDocumentarios extends JFrame {
         Font fontePadrao = new Font("Arial", Font.BOLD, 100);
 
         // Rótulo do título da janela
-        tituloLabel = new JLabel("Documentarios Cadastradas", SwingConstants.CENTER);
+        tituloLabel = new JLabel("Documentarios Cadastrados", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
         } else {

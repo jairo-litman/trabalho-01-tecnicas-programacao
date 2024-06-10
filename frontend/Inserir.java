@@ -1,4 +1,5 @@
 package frontend;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,12 +17,25 @@ public class Inserir extends JFrame {
     private JLabel tituloLabel;
     private JButton inserirButton;
     private JButton apagarButton;
+    private JComboBox<String> categoriaComboBox;
 
     // Construtor da classe Inserir
     public Inserir() {
         setTitle("Inserir no banco de dados");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
+
+        // Carrega a fonte personalizada
+        Font bebasFont = loadFont("Bebas.ttf", 60f);
+        Font sansSerifBoldFont = new Font("SansSerif", Font.BOLD, 18);
+
+        JLabel categoriaLabel = new JLabel("Categoria");
+        categoriaLabel.setFont(sansSerifBoldFont);
+        categoriaLabel.setForeground(Color.WHITE);
+
+        String[] opcoes = { "Filme", "Série", "Documentário" };
+        categoriaComboBox = new JComboBox<>(opcoes);
+        categoriaComboBox.setSelectedIndex(-1);
 
         // Inicialização do painel principal com layout GridBag
         panel = new JPanel(new GridBagLayout());
@@ -41,7 +55,7 @@ public class Inserir extends JFrame {
         Font fontePadrao = new Font("Arial", Font.BOLD, 100);
 
         // Rótulo do título da janela
-        tituloLabel = new JLabel("INSERIR no banco de dados", SwingConstants.CENTER);
+        tituloLabel = new JLabel("Editar", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
             vazioLabel.setFont(fonteBebas);
@@ -75,8 +89,12 @@ public class Inserir extends JFrame {
             painelCheckBox.add(rotuloCheckBox, BorderLayout.CENTER);
 
             checkBoxes.add(checkBox);
-            addComponente(panel, painelCheckBox, 0, linha++, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+            addComponente(panel, painelCheckBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
+                    GridBagConstraints.HORIZONTAL);
         }
+
+        addComponente(panel, categoriaLabel, 0, linha++, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+        addComponente(panel, categoriaComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
         // Botão para inserir registros selecionados
         inserirButton = new JButton("Inserir Selecionados");
@@ -105,6 +123,7 @@ public class Inserir extends JFrame {
             }
         });
         addComponente(panel, apagarButton, 0, linha++, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+ 
 
         // Adiciona um painel de rolagem para o painel principal
         JScrollPane scrollPane = new JScrollPane(panel);
@@ -199,7 +218,8 @@ public class Inserir extends JFrame {
     }
 
     // Método auxiliar para adicionar componentes ao painel com GridBagConstraints
-    private void addComponente(Container container, Component componente, int gridx, int gridy, int gridwidth, int gridheight, int anchor, int fill) {
+    private void addComponente(Container container, Component componente, int gridx, int gridy, int gridwidth,
+            int gridheight, int anchor, int fill) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = gridx;
         gbc.gridy = gridy;
