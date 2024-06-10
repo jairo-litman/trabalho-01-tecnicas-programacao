@@ -194,30 +194,30 @@ public class Cadastro extends JFrame {
             int dataLancamento = Integer.parseInt(dataLancamentoTextField.getText());
 
             // Grava os dados no banco de dados
-            // try {
+            try {
                 System.out.println(categoria);
-                // if ("Filme".equals(categoria)) {
-                //     int duracao = Integer.parseInt(duracaoTextField.getText());
-                //     Film filme = new Film(titulo, dataLancamento, genero, duracao);
-                //     db.save(filme);
-                //     System.out.println("Filme cadastrado!");
-                // }
-                // if ("Série".equals(categoria)) {
-                //     int numTemporadas = Integer.parseInt(numTemporadasTextField.getText());
-                //     Series serie = new Series(titulo, dataLancamento, genero, numTemporadas);
-                //     db.save(serie);
-                //     System.out.println("Série cadastrada!");
-                // }
-                // if ("Documentário".equals(categoria)) {
-                //     int duracao = Integer.parseInt(duracaoTextField.getText());
-                //     Documentary documentary = new Documentary(titulo, dataLancamento, genero, duracao);
-                //     db.save(documentary);
-                //     System.out.println("Documentário cadastrado!");
-                // }
+                if ("Filme".equals(categoria)) {
+                    int duracao = Integer.parseInt(duracaoTextField.getText());
+                    Film filme = new Film(titulo, dataLancamento, genero, duracao);
+                    db.save(filme);
+                    System.out.println("Filme cadastrado!");
+                }
+                if ("Série".equals(categoria)) {
+                    int numTemporadas = Integer.parseInt(numTemporadasTextField.getText());
+                    Series serie = new Series(titulo, dataLancamento, genero, numTemporadas);
+                    db.save(serie);
+                    System.out.println("Série cadastrada!");
+                }
+                if ("Documentário".equals(categoria)) {
+                    int duracao = Integer.parseInt(duracaoTextField.getText());
+                    Documentary documentary = new Documentary(titulo, dataLancamento, genero, duracao);
+                    db.save(documentary);
+                    System.out.println("Documentário cadastrado!");
+                }
 
-            // } catch (Exception e2) {
-            //     e2.getStackTrace();
-            // }
+            } catch (Exception e2) {
+                e2.getStackTrace();
+            }
         });
 
         // Adiciona os componentes ao painel
