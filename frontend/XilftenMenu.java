@@ -6,8 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.List;
 
+import backend.Film;
 import backend.Manager;
+import backend.Media;
+import backend.Series;
 
 // Classe principal que cria a janela do menu Xilften
 public class XilftenMenu extends JFrame {
@@ -21,6 +26,21 @@ public class XilftenMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(new Color(229, 9, 14));
         setVisible(true);
+
+        try {
+            List<Media> filmes = dbManager.get("films");
+            for (Media m: filmes) {
+                Film f = (Film) m;
+                System.out.println(f);
+            }
+            List<Media> series = dbManager.get("series");
+            for (Media s: series) {
+                Series k = (Series) s;
+                System.out.println(k);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Painel principal com layout GridBag
         JPanel panel = new JPanel(new GridBagLayout());

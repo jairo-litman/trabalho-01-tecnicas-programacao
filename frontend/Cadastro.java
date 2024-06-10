@@ -1,11 +1,16 @@
 package frontend;
 
 import javax.swing.*;
+
+import backend.Documentary;
+import backend.Film;
+import backend.Manager;
+import backend.Series;
+
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 // Classe principal que cria a janela de cadastro
 public class Cadastro extends JFrame {
@@ -22,11 +27,20 @@ public class Cadastro extends JFrame {
     private JTextField titleTextField;
     private JComboBox<String> categoriaComboBox;
 
+    Manager db;
+
     // Construtor da classe Cadastro
     public Cadastro() {
         setTitle("Cadastro");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
+
+        try {
+            Manager db = Manager.getInstance();
+            this.db = db;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Painel principal com layout GridBag
         panel = new JPanel(new GridBagLayout());
@@ -175,35 +189,35 @@ public class Cadastro extends JFrame {
         cadastrarButton.addActionListener(e -> {
             // Ação executada ao clicar no botão "Cadastrar"
             String titulo = titleTextField.getText();
-            String categoria = (String) categoriaComboBox.getSelectedItem();
-            String duracao = duracaoTextField.getText();
-            String numTemporadas = numTemporadasTextField.getText();
-            String genero = (String) generoComboBox.getSelectedItem();
-            String dataLancamento = dataLancamentoTextField.getText();
+            String categoria = categoriaComboBox.getSelectedItem().toString();
+            String genero = generoComboBox.getSelectedItem().toString();
+            int dataLancamento = Integer.parseInt(dataLancamentoTextField.getText());
 
-            // Grava os dados no arquivo "cadastro.txt"
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("cadastro.txt", true))) {
-                writer.write("Título: " + titulo);
-                writer.newLine();
-                writer.write("Categoria: " + categoria);
-                writer.newLine();
-                if ("Filme".equals(categoria) || "Documentário".equals(categoria)) {
-                    writer.write("Duração: " + duracao);
-                    writer.newLine();
-                } else if ("Série".equals(categoria)) {
-                    writer.write("Número de Temporadas: " + numTemporadas);
-                    writer.newLine();
-                }
-                writer.write("Gênero: " + genero);
-                writer.newLine();
-                writer.write("Ano de Lançamento: " + dataLancamento);
-                writer.newLine();
-                writer.newLine(); // Adiciona uma linha em branco após cada registro
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            // Grava os dados no banco de dados
+            // try {
+                System.out.println(categoria);
+                // if ("Filme".equals(categoria)) {
+                //     int duracao = Integer.parseInt(duracaoTextField.getText());
+                //     Film filme = new Film(titulo, dataLancamento, genero, duracao);
+                //     db.save(filme);
+                //     System.out.println("Filme cadastrado!");
+                // }
+                // if ("Série".equals(categoria)) {
+                //     int numTemporadas = Integer.parseInt(numTemporadasTextField.getText());
+                //     Series serie = new Series(titulo, dataLancamento, genero, numTemporadas);
+                //     db.save(serie);
+                //     System.out.println("Série cadastrada!");
+                // }
+                // if ("Documentário".equals(categoria)) {
+                //     int duracao = Integer.parseInt(duracaoTextField.getText());
+                //     Documentary documentary = new Documentary(titulo, dataLancamento, genero, duracao);
+                //     db.save(documentary);
+                //     System.out.println("Documentário cadastrado!");
+                // }
 
-            System.out.println("Dados cadastrados!");
+            // } catch (Exception e2) {
+            //     e2.getStackTrace();
+            // }
         });
 
         // Adiciona os componentes ao painel
