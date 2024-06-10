@@ -8,18 +8,13 @@ import java.util.List;
  * Represents a series.
  * 
  * <p>
- * Extends the {@link Media} class to include the number of seasons and
- * episodes.
+ * Extends the {@link Media} class to include the number of seasons.
  */
 public class Series extends Media {
     /**
      * The number of seasons in the series.
      */
     protected int seasons;
-    /**
-     * The number of episodes in the series.
-     */
-    protected int episodes;
 
     /**
      * The name of the database table that stores the series.
@@ -27,23 +22,20 @@ public class Series extends Media {
     public static final String TABLE_NAME = "series";
 
     /**
-     * Creates a new series with the given title, year, genre, number of seasons,
-     * and number of episodes.
+     * Creates a new series with the given title, year, genre and number of seasons.
      * 
      * <p>
      * This is the constructor that is expected to be used by the user of this
      * package when creating a new series.
      * 
-     * @param title    the title of the series
-     * @param year     the year the series was released
-     * @param genre    the genre of the series
-     * @param seasons  the number of seasons in the series
-     * @param episodes the number of episodes in the series
+     * @param title   the title of the series
+     * @param year    the year the series was released
+     * @param genre   the genre of the series
+     * @param seasons the number of seasons in the series
      */
-    public Series(String title, int year, String genre, int seasons, int episodes) {
+    public Series(String title, int year, String genre, int seasons) {
         super(title, year, genre);
         this.seasons = seasons;
-        this.episodes = episodes;
     }
 
     /**
@@ -59,23 +51,23 @@ public class Series extends Media {
     protected Series(ResultSet rs) throws SQLException {
         super(rs);
         this.seasons = rs.getInt("seasons");
-        this.episodes = rs.getInt("episodes");
     }
 
     public int getSeasons() {
         return this.seasons;
     }
 
-    public int getEpisodes() {
-        return this.episodes;
-    }
-
     public void setSeasons(int seasons) {
         this.seasons = seasons;
     }
 
-    public void setEpisodes(int episodes) {
-        this.episodes = episodes;
+    /**
+     * Returns the sql for creating the films table.
+     */
+    public static String getSQLCreateTable() {
+        return String.format(
+                "CREATE TABLE IF NOT EXISTS %s (id SERIAL PRIMARY KEY, title TEXT NOT NULL, year INT NOT NULL, genre TEXT NOT NULL, seasons INT NOT NULL);",
+                TABLE_NAME);
     }
 
     /**
@@ -96,7 +88,6 @@ public class Series extends Media {
     public List<String> getSQLColumns(boolean includeID) {
         List<String> columns = super.getSQLColumns(includeID);
         columns.add("seasons");
-        columns.add("episodes");
         return columns;
     }
 
@@ -110,7 +101,6 @@ public class Series extends Media {
     public List<Object> getSQLValues(boolean includeID) {
         List<Object> values = super.getSQLValues(includeID);
         values.add(this.seasons);
-        values.add(this.episodes);
         return values;
     }
 }

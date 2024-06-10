@@ -62,6 +62,15 @@ public class Film extends Media {
     }
 
     /**
+     * Returns the sql for creating the films table.
+     */
+    public static String getSQLCreateTable() {
+        return String.format(
+                "CREATE TABLE IF NOT EXISTS %s (id SERIAL PRIMARY KEY, title TEXT NOT NULL, year INT NOT NULL, genre TEXT NOT NULL, duration INT NOT NULL);",
+                TABLE_NAME);
+    }
+
+    /**
      * Returns the sql table name for films.
      */
     @Override

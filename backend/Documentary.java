@@ -2,28 +2,22 @@ package backend;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Represents a documentary.
  *
  * <p>
- * Extends the {@link Film} class to include a topic field.
+ * Extends the {@link Film} class to change the name of the database table that
+ * stores the documentaries.
  */
 public class Documentary extends Film {
-    /**
-     * The topic of the documentary.
-     */
-    protected String topic;
-
     /**
      * The name of the database table that stores the documentaries.
      */
     public static final String TABLE_NAME = "documentaries";
 
     /**
-     * Creates a new documentary with the given title, year, genre, duration, and
-     * topic.
+     * Creates a new documentary with the given title, year, genre and duration.
      * 
      * <p>
      * This is the constructor that is expected to be used by the user of this
@@ -33,11 +27,9 @@ public class Documentary extends Film {
      * @param year     the year the documentary was released
      * @param genre    the genre of the documentary
      * @param duration the duration of the documentary in minutes
-     * @param topic    the topic of the documentary
      */
-    public Documentary(String title, int year, String genre, int duration, String topic) {
+    public Documentary(String title, int year, String genre, int duration) {
         super(title, year, genre, duration);
-        this.topic = topic;
     }
 
     /**
@@ -52,15 +44,15 @@ public class Documentary extends Film {
      */
     protected Documentary(ResultSet rs) throws SQLException {
         super(rs);
-        this.topic = rs.getString("topic");
     }
 
-    public String getTopic() {
-        return this.topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
+    /**
+     * Returns the sql for creating the films table.
+     */
+    public static String getSQLCreateTable() {
+        return String.format(
+                "CREATE TABLE IF NOT EXISTS %s (id SERIAL PRIMARY KEY, title TEXT NOT NULL, year INT NOT NULL, genre TEXT NOT NULL, duration INT NOT NULL);",
+                TABLE_NAME);
     }
 
     /**
@@ -69,33 +61,5 @@ public class Documentary extends Film {
     @Override
     public String getSQLTableName() {
         return TABLE_NAME;
-    }
-
-    /**
-     * Returns the names of the columns in the database table that store the
-     * documentary's data.
-     * 
-     * @param includeID whether to include the ID column
-     * @return the names of the columns in the database table that store the
-     *         documentary's data
-     */
-    @Override
-    public List<String> getSQLColumns(boolean includeID) {
-        List<String> columns = super.getSQLColumns(includeID);
-        columns.add("topic");
-        return columns;
-    }
-
-    /**
-     * Returns the values of the documentary's data to be stored in the database.
-     * 
-     * @param includeID whether to include the ID value
-     * @return the values of the documentary's data to be stored in the database
-     */
-    @Override
-    public List<Object> getSQLValues(boolean includeID) {
-        List<Object> values = super.getSQLValues(includeID);
-        values.add(this.topic);
-        return values;
     }
 }

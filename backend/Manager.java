@@ -57,13 +57,9 @@ public class Manager implements MediaDAO {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("SET DATABASE SQL SYNTAX PGS TRUE");
 
-            String sql = "CREATE TABLE IF NOT EXISTS";
-            String cols = "id SERIAL PRIMARY KEY, title TEXT NOT NULL, year INT NOT NULL, genre TEXT NOT NULL";
-
-            stmt.executeUpdate(String.format("%s films (%s, duration INT NOT NULL)", sql, cols));
-            stmt.executeUpdate(String.format("%s series (%s, seasons INT NOT NULL, episodes INT NOT NULL)", sql, cols));
-            stmt.executeUpdate(
-                    String.format("%s documentaries (%s, duration INT NOT NULL, topic TEXT NOT NULL)", sql, cols));
+            stmt.executeUpdate(Film.getSQLCreateTable());
+            stmt.executeUpdate(Series.getSQLCreateTable());
+            stmt.executeUpdate(Documentary.getSQLCreateTable());
         }
     }
 
