@@ -30,16 +30,19 @@ public class XilftenMenu extends JFrame {
 
         try {
             List<Media> filmes = dbManager.get("films");
+            System.out.println("Filmes");
             for (Media m: filmes) {
                 Film f = (Film) m;
                 System.out.println(f);
             }
             List<Media> series = dbManager.get("series");
+            System.out.println("Séries");
             for (Media s: series) {
                 Series k = (Series) s;
                 System.out.println(k);
             }
             List<Media> documentaries = dbManager.get("documentaries");
+            System.out.println("Documentários");
             for (Media d: documentaries) {
                 Documentary j = (Documentary) d;
                 System.out.println(j);

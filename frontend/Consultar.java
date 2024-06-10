@@ -2,6 +2,8 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -50,6 +52,14 @@ public class Consultar extends JFrame {
         filmesButton.setMargin(new Insets(5, 5, 5, 5));
         filmesButton.setFocusPainted(false);
         panel.add(filmesButton, gbc);
+        filmesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abre a janela "MostraFilmes" quando o botão "filmes" for clicado
+                MostraFilmes mostraFilmes = new MostraFilmes();
+                mostraFilmes.setVisible(true);
+            }
+        });
 
         // Botão "Séries"
         JButton seriesButton = new JButton("Séries");
@@ -59,6 +69,14 @@ public class Consultar extends JFrame {
         seriesButton.setMargin(new Insets(5, 5, 5, 5));
         seriesButton.setFocusPainted(false);
         panel.add(seriesButton, gbc);
+        seriesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abre a janela "MostraSeries" quando o botão "series" for clicado
+                MostraSeries mostraSeries = new MostraSeries();
+                mostraSeries.setVisible(true);
+            }
+        });
 
         // Botão "Documentários"
         JButton documentariosButton = new JButton("Documentários");
@@ -68,6 +86,14 @@ public class Consultar extends JFrame {
         documentariosButton.setMargin(new Insets(5, 5, 5, 5));
         documentariosButton.setFocusPainted(false);
         panel.add(documentariosButton, gbc);
+        documentariosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abre a janela "MostraSeries" quando o botão "series" for clicado
+                MostraDocumentarios mostraDocumentarios = new MostraDocumentarios();
+                mostraDocumentarios.setVisible(true);
+            }
+        });
 
         add(panel, BorderLayout.CENTER);
 
