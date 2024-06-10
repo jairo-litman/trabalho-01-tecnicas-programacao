@@ -15,8 +15,8 @@ import java.util.List;
 public class MostraDocumentarios extends JFrame {
     private JPanel panel;
     private List<Media> docs;
-    private JLabel vazioLabel;
     private JLabel tituloLabel;
+    private JLabel vazioLabel;
 
     Manager db;
 
@@ -51,13 +51,16 @@ public class MostraDocumentarios extends JFrame {
         tituloLabel = new JLabel("Documentarios Cadastradas", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
-            vazioLabel.setFont(fonteBebas);
         } else {
             tituloLabel.setFont(fontePadrao);
-            vazioLabel.setFont(new Font("Arial", Font.BOLD, 30));
         }
         tituloLabel.setForeground(Color.RED);
         addComponente(panel, tituloLabel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+
+        // Rótulo exibido quando não há dados para inserir
+        vazioLabel = new JLabel("Não há documentários cadastrados", SwingConstants.CENTER);
+        vazioLabel.setForeground(Color.WHITE);
+        vazioLabel.setVisible(true);
 
         // Adiciona um painel de rolagem para o painel principal
         JScrollPane scrollPane = new JScrollPane(panel);
@@ -72,30 +75,29 @@ public class MostraDocumentarios extends JFrame {
         // Adiciona as series na tela
         int linha = 2;
 
-        try {
-            for (Media docsMedia : docs) {
-                Documentary docs = (Documentary) docsMedia;
-                JPanel panelDocs = new JPanel(new GridLayout(4, 1));
-                panelDocs.setBackground(Color.RED);
-                JLabel titulo = new JLabel("Título: " + docs.getTitle());
-                JLabel genero = new JLabel("Gênero: " + docs.getGenre());
-                JLabel duracao = new JLabel("Duração: " + docs.getDuration());
-                JLabel ano = new JLabel("Ano: " + docs.getYear());
-                titulo.setForeground(Color.WHITE);
-                genero.setForeground(Color.WHITE);
-                duracao.setForeground(Color.WHITE);
-                ano.setForeground(Color.WHITE);
-                panelDocs.add(titulo);
-                panelDocs.add(genero);
-                panelDocs.add(duracao);
-                panelDocs.add(ano);
-                addComponente(panel, panelDocs, 0, linha++, 1, 1, GridBagConstraints.CENTER,
-                        GridBagConstraints.HORIZONTAL);
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
+        for (Media docsMedia : docs) {
+            Documentary docs = (Documentary) docsMedia;
+            JPanel panelDocs = new JPanel(new GridLayout(4, 1));
+            panelDocs.setBackground(Color.RED);
+            JLabel titulo = new JLabel("Título: " + docs.getTitle());
+            JLabel genero = new JLabel("Gênero: " + docs.getGenre());
+            JLabel duracao = new JLabel("Duração: " + docs.getDuration());
+            JLabel ano = new JLabel("Ano: " + docs.getYear());
+            titulo.setForeground(Color.WHITE);
+            genero.setForeground(Color.WHITE);
+            duracao.setForeground(Color.WHITE);
+            ano.setForeground(Color.WHITE);
+            panelDocs.add(titulo);
+            panelDocs.add(genero);
+            panelDocs.add(duracao);
+            panelDocs.add(ano);
+            addComponente(panel, panelDocs, 0, linha++, 1, 1, GridBagConstraints.CENTER,
+                    GridBagConstraints.HORIZONTAL);
         }
 
+        if (docs.isEmpty()) {
+            addComponente(panel, vazioLabel, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+        }
     }
 
     // Método para carregar uma fonte personalizada

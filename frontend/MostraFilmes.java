@@ -15,8 +15,8 @@ import java.util.List;
 public class MostraFilmes extends JFrame {
     private JPanel panel;
     private List<Media> filmes;
-    private JLabel vazioLabel;
     private JLabel tituloLabel;
+    private JLabel vazioLabel;
 
     Manager db;
 
@@ -51,13 +51,16 @@ public class MostraFilmes extends JFrame {
         tituloLabel = new JLabel("Filmes Cadastrados", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
-            vazioLabel.setFont(fonteBebas);
         } else {
             tituloLabel.setFont(fontePadrao);
-            vazioLabel.setFont(new Font("Arial", Font.BOLD, 30));
         }
         tituloLabel.setForeground(Color.RED);
         addComponente(panel, tituloLabel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+
+        // Rótulo exibido quando não há dados para inserir
+        vazioLabel = new JLabel("Não há filmes cadastrados", SwingConstants.CENTER);
+        vazioLabel.setForeground(Color.WHITE);
+        vazioLabel.setVisible(true);
 
         // Adiciona um painel de rolagem para o painel principal
         JScrollPane scrollPane = new JScrollPane(panel);
@@ -72,28 +75,28 @@ public class MostraFilmes extends JFrame {
         // Adiciona os filmes na tela
         int linha = 2;
 
-        try {
-            for (Media filmeMedia : filmes) {
-                Film filme = (Film) filmeMedia;
-                JPanel panelFilme = new JPanel(new GridLayout(4, 1));
-                panelFilme.setBackground(Color.RED);
-                JLabel titulo = new JLabel("Título: " + filme.getTitle());
-                JLabel genero = new JLabel("Gênero: " + filme.getGenre());
-                JLabel duracao = new JLabel("Duração: " + filme.getDuration());
-                JLabel ano = new JLabel("Ano: " + filme.getYear());
-                titulo.setForeground(Color.WHITE);
-                genero.setForeground(Color.WHITE);
-                duracao.setForeground(Color.WHITE);
-                ano.setForeground(Color.WHITE);
-                panelFilme.add(titulo);
-                panelFilme.add(genero);
-                panelFilme.add(duracao);
-                panelFilme.add(ano);
-                addComponente(panel, panelFilme, 0, linha++, 1, 1, GridBagConstraints.CENTER,
-                        GridBagConstraints.HORIZONTAL);
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
+        for (Media filmeMedia : filmes) {
+            Film filme = (Film) filmeMedia;
+            JPanel panelFilme = new JPanel(new GridLayout(4, 1));
+            panelFilme.setBackground(Color.RED);
+            JLabel titulo = new JLabel("Título: " + filme.getTitle());
+            JLabel genero = new JLabel("Gênero: " + filme.getGenre());
+            JLabel duracao = new JLabel("Duração: " + filme.getDuration());
+            JLabel ano = new JLabel("Ano: " + filme.getYear());
+            titulo.setForeground(Color.WHITE);
+            genero.setForeground(Color.WHITE);
+            duracao.setForeground(Color.WHITE);
+            ano.setForeground(Color.WHITE);
+            panelFilme.add(titulo);
+            panelFilme.add(genero);
+            panelFilme.add(duracao);
+            panelFilme.add(ano);
+            addComponente(panel, panelFilme, 0, linha++, 1, 1, GridBagConstraints.CENTER,
+                    GridBagConstraints.HORIZONTAL);
+        }
+
+        if (filmes.isEmpty()) {
+            addComponente(panel, vazioLabel, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
         }
 
     }

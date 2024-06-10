@@ -15,8 +15,8 @@ import java.util.List;
 public class MostraSeries extends JFrame {
     private JPanel panel;
     private List<Media> series;
-    private JLabel vazioLabel;
     private JLabel tituloLabel;
+    private JLabel vazioLabel;
 
     Manager db;
 
@@ -51,13 +51,16 @@ public class MostraSeries extends JFrame {
         tituloLabel = new JLabel("Series Cadastradas", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
-            vazioLabel.setFont(fonteBebas);
         } else {
             tituloLabel.setFont(fontePadrao);
-            vazioLabel.setFont(new Font("Arial", Font.BOLD, 30));
         }
         tituloLabel.setForeground(Color.RED);
         addComponente(panel, tituloLabel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+
+        // Rótulo exibido quando não há dados para inserir
+        vazioLabel = new JLabel("Não há séries cadastradas", SwingConstants.CENTER);
+        vazioLabel.setForeground(Color.WHITE);
+        vazioLabel.setVisible(true);
 
         // Adiciona um painel de rolagem para o painel principal
         JScrollPane scrollPane = new JScrollPane(panel);
@@ -72,29 +75,30 @@ public class MostraSeries extends JFrame {
         // Adiciona os filmes na tela
         int linha = 2;
 
-        try {
-            for (Media seriesMedia : series) {
-                Series serie = (Series) seriesMedia;
-                JPanel panelSerie = new JPanel(new GridLayout(4, 1));
-                panelSerie.setBackground(Color.RED);
-                JLabel titulo = new JLabel("Título: " + serie.getTitle());
-                JLabel genero = new JLabel("Gênero: " + serie.getGenre());
-                JLabel duracao = new JLabel("Temporadas: " + serie.getSeasons());
-                JLabel ano = new JLabel("Ano: " + serie.getYear());
-                titulo.setForeground(Color.WHITE);
-                genero.setForeground(Color.WHITE);
-                duracao.setForeground(Color.WHITE);
-                ano.setForeground(Color.WHITE);
-                panelSerie.add(titulo);
-                panelSerie.add(genero);
-                panelSerie.add(duracao);
-                panelSerie.add(ano);
-                addComponente(panel, panelSerie, 0, linha++, 1, 1, GridBagConstraints.CENTER,
-                        GridBagConstraints.HORIZONTAL);
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
+        for (Media seriesMedia : series) {
+            Series serie = (Series) seriesMedia;
+            JPanel panelSerie = new JPanel(new GridLayout(4, 1));
+            panelSerie.setBackground(Color.RED);
+            JLabel titulo = new JLabel("Título: " + serie.getTitle());
+            JLabel genero = new JLabel("Gênero: " + serie.getGenre());
+            JLabel duracao = new JLabel("Temporadas: " + serie.getSeasons());
+            JLabel ano = new JLabel("Ano: " + serie.getYear());
+            titulo.setForeground(Color.WHITE);
+            genero.setForeground(Color.WHITE);
+            duracao.setForeground(Color.WHITE);
+            ano.setForeground(Color.WHITE);
+            panelSerie.add(titulo);
+            panelSerie.add(genero);
+            panelSerie.add(duracao);
+            panelSerie.add(ano);
+            addComponente(panel, panelSerie, 0, linha++, 1, 1, GridBagConstraints.CENTER,
+                    GridBagConstraints.HORIZONTAL);
         }
+
+        if (series.isEmpty()) {
+            addComponente(panel, vazioLabel, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
+        }
+
     }
 
     // Método para carregar uma fonte personalizada
