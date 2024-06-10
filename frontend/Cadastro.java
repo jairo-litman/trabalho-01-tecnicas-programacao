@@ -195,7 +195,6 @@ public class Cadastro extends JFrame {
 
             // Grava os dados no banco de dados
             try {
-                System.out.println(categoria);
                 if ("Filme".equals(categoria)) {
                     int duracao = Integer.parseInt(duracaoTextField.getText());
                     Film filme = new Film(titulo, dataLancamento, genero, duracao);

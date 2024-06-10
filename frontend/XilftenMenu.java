@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
+import backend.Documentary;
 import backend.Film;
 import backend.Manager;
 import backend.Media;
@@ -38,6 +39,12 @@ public class XilftenMenu extends JFrame {
                 Series k = (Series) s;
                 System.out.println(k);
             }
+            List<Media> documentaries = dbManager.get("documentaries");
+            for (Media d: documentaries) {
+                Documentary j = (Documentary) d;
+                System.out.println(j);
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
