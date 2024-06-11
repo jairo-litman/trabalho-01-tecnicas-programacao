@@ -5,6 +5,7 @@ import javax.swing.*;
 import backend.Documentary;
 import backend.Film;
 import backend.Manager;
+import backend.Media;
 import backend.Series;
 
 import java.awt.*;
@@ -13,10 +14,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 
 // Classe principal que cria a janela de consulta ao catálogo
 public class Remover extends JFrame {
     private JComboBox<String> categoriaComboBox;
+    private JComboBox<String> titleComboBox;
+    private List<Media> media;
     Manager db;
 
     // Construtor da classe Consultar
@@ -37,6 +41,8 @@ public class Remover extends JFrame {
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        titleComboBox = new JComboBox<>();
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -51,6 +57,55 @@ public class Remover extends JFrame {
         String[] opcoes = { "Filme", "Série", "Documentário" };
         categoriaComboBox = new JComboBox<>(opcoes);
         categoriaComboBox.setSelectedIndex(-1);
+        categoriaComboBox.addActionListener(e -> {
+            String selectedCategory = categoriaComboBox.getSelectedItem().toString();
+            if ("Filme".equals(selectedCategory)) {
+                titleComboBox.removeAllItems();
+
+                try {
+                    media = db.get("films");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+                for (Media filmeMedia : media) {
+                    Film filme = (Film) filmeMedia;
+                    titleComboBox.addItem(filme.getTitle());
+                }
+
+            } else if ("Série".equals(selectedCategory)) {
+
+                titleComboBox.removeAllItems();
+
+                try {
+                    media = db.get("series");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+                for (Media seriesMedia : media) {
+                    Series serie = (Series) seriesMedia;
+                    titleComboBox.addItem(serie.getTitle());
+                }
+
+            } else if ("Documentário".equals(selectedCategory)) {
+
+                titleComboBox.removeAllItems();
+
+                try {
+                    media = db.get("documentaries");
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+
+                for (Media docsMedia : media) {
+                    Documentary doc = (Documentary) docsMedia;
+                    titleComboBox.addItem(doc.getTitle());
+                }
+
+            }
+        });
+        ;
 
         // Cria e configura o rótulo do título
         JLabel titleLabel = new JLabel("Qual tipo deseja remover?", SwingConstants.CENTER);
@@ -66,7 +121,6 @@ public class Remover extends JFrame {
         title.setFont(sansSerifBoldFont);
         title.setForeground(Color.BLACK);
 
-        JTextField titleTextField = new JTextField(20);
 
         // Botão para apagar registros selecionados
         JButton apagarButton = new JButton("Remover");
@@ -79,10 +133,11 @@ public class Remover extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String category = categoriaComboBox.getSelectedItem().toString();
                 String tableName = "";
-                String itemName = titleTextField.getText();
+                String itemName = titleComboBox.getSelectedItem().toString();
 
                 if (itemName.equals("")) {
-                    JOptionPane.showMessageDialog(panel, "Insira o título da obra!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Insira o título da obra!", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 if ("Filme".equals(category)) {
@@ -91,10 +146,12 @@ public class Remover extends JFrame {
                         Film filme = (Film) db.get(tableName, itemName).get(0);
                         db.delete(filme);
                         System.out.println("Filme deletado!");
-                        JOptionPane.showMessageDialog(panel, "Filme " + "'" + itemName + "'" + " deletado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Filme " + "'" + itemName + "'" + " deletado!", "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
                         e1.getStackTrace();
-                        JOptionPane.showMessageDialog(panel, "Erro ao deletar filme!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Erro ao deletar filme!", "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
                 if ("Série".equals(category)) {
@@ -103,10 +160,12 @@ public class Remover extends JFrame {
                         Series serie = (Series) db.get(tableName, itemName).get(0);
                         db.delete(serie);
                         System.out.println("Série deletada!");
-                        JOptionPane.showMessageDialog(panel, "Série " + "'" + itemName + "'" + " deletada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Série " + "'" + itemName + "'" + " deletada!", "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
                         e1.getStackTrace();
-                        JOptionPane.showMessageDialog(panel, "Erro ao deletar série!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Erro ao deletar série!", "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
                 if ("Documentário".equals(category)) {
@@ -115,10 +174,12 @@ public class Remover extends JFrame {
                         Documentary doc = (Documentary) db.get(tableName, itemName).get(0);
                         db.delete(doc);
                         System.out.println("Documentário deletado!");
-                        JOptionPane.showMessageDialog(panel, "Documentário " + "'" + itemName + "'" + " deletado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Documentário " + "'" + itemName + "'" + " deletado!",
+                                "Aviso", JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e1) {
                         e1.getStackTrace();
-                        JOptionPane.showMessageDialog(panel, "Erro ao deletar documentário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, "Erro ao deletar documentário!", "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
 
@@ -128,7 +189,7 @@ public class Remover extends JFrame {
         panel.add(titleLabel, gbc);
         panel.add(categoriaComboBox, gbc);
         panel.add(title, gbc);
-        panel.add(titleTextField, gbc);
+        panel.add(titleComboBox, gbc);
         panel.add(apagarButton, gbc);
 
         add(panel, BorderLayout.CENTER);

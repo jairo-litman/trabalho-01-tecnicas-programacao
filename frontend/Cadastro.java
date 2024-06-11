@@ -200,22 +200,26 @@ public class Cadastro extends JFrame {
                     Film filme = new Film(titulo, dataLancamento, genero, duracao);
                     db.save(filme);
                     System.out.println("Filme cadastrado!");
+                    JOptionPane.showMessageDialog(panel, "Filme cadastrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
                 if ("Série".equals(categoria)) {
                     int numTemporadas = Integer.parseInt(numTemporadasTextField.getText());
                     Series serie = new Series(titulo, dataLancamento, genero, numTemporadas);
                     db.save(serie);
                     System.out.println("Série cadastrada!");
+                    JOptionPane.showMessageDialog(panel, "Série cadastrada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
                 if ("Documentário".equals(categoria)) {
                     int duracao = Integer.parseInt(duracaoTextField.getText());
                     Documentary documentary = new Documentary(titulo, dataLancamento, genero, duracao);
                     db.save(documentary);
                     System.out.println("Documentário cadastrado!");
+                    JOptionPane.showMessageDialog(panel, "Documentário cadastrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             } catch (Exception e2) {
                 e2.getStackTrace();
+                JOptionPane.showMessageDialog(panel, "Erro ao cadastrar item!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

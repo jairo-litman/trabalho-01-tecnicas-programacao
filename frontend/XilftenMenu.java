@@ -93,7 +93,7 @@ public class XilftenMenu extends JFrame {
         });
 
         // Botão "Inserir"
-        JButton inserirButton = new CustomButton("Inserir");
+        JButton inserirButton = new CustomButton("Editar");
         inserirButton.setFont(buttonFont);
         inserirButton.addActionListener(new ActionListener() {
             @Override
