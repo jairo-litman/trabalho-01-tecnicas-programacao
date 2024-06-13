@@ -13,6 +13,7 @@ public class Main {
         }
     }
 
+    // Método para exemplificar uso do backend
     void exemploBackend() {
         try {
             // Obter a instância do Manager, ele não pode ser instanciado diretamente

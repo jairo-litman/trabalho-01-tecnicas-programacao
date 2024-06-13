@@ -18,7 +18,6 @@ import java.util.List;
 // Classe principal que cria a janela de inserção de registros
 public class Inserir extends JFrame {
     private JPanel panel;
-    private JLabel vazioLabel;
     private JLabel tituloLabel;
     private JComboBox<String> categoriaComboBox;
     private JComboBox<String> opcoesComboBox;
@@ -32,6 +31,7 @@ public class Inserir extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
 
+        // instância do banco
         try {
             Manager db = Manager.getInstance();
             this.db = db;
@@ -42,25 +42,22 @@ public class Inserir extends JFrame {
         // Carrega a fonte personalizada
         Font sansSerifBoldFont = new Font("SansSerif", Font.BOLD, 18);
 
+        // cria label para categoria
         JLabel categoriaLabel = new JLabel("Categoria");
         categoriaLabel.setFont(sansSerifBoldFont);
         categoriaLabel.setForeground(Color.WHITE);
 
+        // cria ComboBox para as categorias
         String[] opcoes = { "Filme", "Série", "Documentário" };
         categoriaComboBox = new JComboBox<>(opcoes);
         categoriaComboBox.setSelectedIndex(-1);
 
+        // cria ComboBox para opções
         opcoesComboBox = new JComboBox<>();
 
         // Inicialização do painel principal com layout GridBag
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.BLACK);
-
-        // Rótulo exibido quando não há dados para inserir
-        vazioLabel = new JLabel("Sem dados para serem inseridos", SwingConstants.CENTER);
-        vazioLabel.setForeground(Color.WHITE);
-        vazioLabel.setVisible(false);
-        addComponente(panel, vazioLabel, 0, 0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
         // Carrega a fonte personalizada ou usa a fonte padrão
         Font fonteBebas = loadFont("Bebas.ttf", 30f);
@@ -70,25 +67,27 @@ public class Inserir extends JFrame {
         tituloLabel = new JLabel("Editar", SwingConstants.CENTER);
         if (fonteBebas != null) {
             tituloLabel.setFont(fonteBebas);
-            vazioLabel.setFont(fonteBebas);
         } else {
             tituloLabel.setFont(fontePadrao);
-            vazioLabel.setFont(new Font("Arial", Font.BOLD, 30));
         }
         tituloLabel.setForeground(Color.RED);
         addComponente(panel, tituloLabel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
+        // linha para manter controle da edição de componentes
         int linha = 2;
 
+        // adicionar categoriaLabel e categoriaComboBox
         addComponente(panel, categoriaLabel, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
         addComponente(panel, categoriaComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
 
+        // cria label para título da obra
         JLabel title = new JLabel("Título da obra que deseja editar: ");
         title.setFont(sansSerifBoldFont);
         title.setForeground(Color.WHITE);
 
+        // ComboBox para os títulos existentes
         titleComboBox = new JComboBox<>();
 
         addComponente(panel, title, 0, linha++, 1, 1, GridBagConstraints.CENTER,
@@ -96,14 +95,18 @@ public class Inserir extends JFrame {
         addComponente(panel, titleComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
 
+        // label para característica a ser editada
         JLabel caracteristica = new JLabel("Característica a ser editada: ");
         caracteristica.setFont(sansSerifBoldFont);
         caracteristica.setForeground(Color.WHITE);
         addComponente(panel, caracteristica, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
 
+        // adicionar opcoesComboBox
         addComponente(panel, opcoesComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
+
+        //  e cria um Listener no categoriaComboBox para trazer as opções de obra dependendo da categoria escolhida
         categoriaComboBox.addActionListener(e -> {
             String selectedCategory = categoriaComboBox.getSelectedItem().toString();
             if ("Filme".equals(selectedCategory)) {
@@ -170,13 +173,14 @@ public class Inserir extends JFrame {
             opcoesComboBox.setSelectedIndex(-1);
         });
 
+        // label para a nova informação que será atualizada
         JLabel novaInformacaoLabel = new JLabel("Nova informação: ");
         novaInformacaoLabel.setFont(sansSerifBoldFont);
         novaInformacaoLabel.setForeground(Color.WHITE);
 
         JTextField novaInformacaoTextField = new JTextField(20);
 
-        // Botão para editar registros selecionados
+        // Botão para editar registros selecionados na tabela correspondente dependendo da escolha
         JButton editarButton = new JButton("Editar");
         editarButton.setFont(new Font("SansSerif", Font.BOLD, 18));
         editarButton.setForeground(Color.WHITE);
@@ -401,6 +405,7 @@ public class Inserir extends JFrame {
             }
         });
 
+        // acidiona componente de novaInformacao e botão de editar
         addComponente(panel, novaInformacaoLabel, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
         addComponente(panel, novaInformacaoTextField, 0, linha++, 1, 1, GridBagConstraints.CENTER,

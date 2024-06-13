@@ -16,14 +16,14 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
-// Classe principal que cria a janela de consulta ao catálogo
+// Classe principal que cria a janela de remover do catálogo
 public class Remover extends JFrame {
     private JComboBox<String> categoriaComboBox;
     private JComboBox<String> titleComboBox;
     private List<Media> media;
     Manager db;
 
-    // Construtor da classe Consultar
+    // Construtor da classe Remover
     public Remover() {
         setTitle("Remover itens");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -41,8 +41,6 @@ public class Remover extends JFrame {
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        titleComboBox = new JComboBox<>();
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -50,11 +48,17 @@ public class Remover extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
 
+        // ComboBox para os títulos
+        titleComboBox = new JComboBox<>();
+
         // Carrega a fonte personalizada
         Font bebasFont = loadFont("Bebas.ttf", 30f);
         Font sansSerifBoldFont = new Font("SansSerif", Font.BOLD, 18);
 
+        // cria as opções de categorias disponíveis
         String[] opcoes = { "Filme", "Série", "Documentário" };
+
+        // cria o ComboBox para os títulos disponíveis dependendo da categoria
         categoriaComboBox = new JComboBox<>(opcoes);
         categoriaComboBox.setSelectedIndex(-1);
         categoriaComboBox.addActionListener(e -> {
@@ -107,7 +111,7 @@ public class Remover extends JFrame {
         });
         ;
 
-        // Cria e configura o rótulo do título
+        // Cria e configura o rótulo do tipo
         JLabel titleLabel = new JLabel("Qual tipo deseja remover?", SwingConstants.CENTER);
         if (bebasFont != null) {
             titleLabel.setFont(bebasFont);
@@ -116,13 +120,13 @@ public class Remover extends JFrame {
         }
         titleLabel.setForeground(Color.BLACK);
 
-        // Cria e configura o rótulo e campo de texto para o título
+        // Cria e configura o rótulo para o título
         JLabel title = new JLabel("Título da obra que deseja excluir: ");
         title.setFont(sansSerifBoldFont);
         title.setForeground(Color.BLACK);
 
 
-        // Botão para apagar registros selecionados
+        // Botão para apagar registros selecionados com base na categoria
         JButton apagarButton = new JButton("Remover");
         apagarButton.setFont(new Font("SansSerif", Font.BOLD, 18));
         apagarButton.setForeground(Color.WHITE);

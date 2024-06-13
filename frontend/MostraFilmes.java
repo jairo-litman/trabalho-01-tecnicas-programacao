@@ -26,6 +26,7 @@ public class MostraFilmes extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
 
+        // isntância do banco
         try {
             Manager db = Manager.getInstance();
             this.db = db;
@@ -37,6 +38,7 @@ public class MostraFilmes extends JFrame {
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.BLACK);
 
+        // tenta conexão com banco de dados para carregar itens cadastrados
         try {
             filmes = db.get("films");
         } catch (SQLException e) {
@@ -57,7 +59,7 @@ public class MostraFilmes extends JFrame {
         tituloLabel.setForeground(Color.RED);
         addComponente(panel, tituloLabel, 0, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 
-        // Rótulo exibido quando não há dados para inserir
+        // Rótulo exibido quando não há dados para consultar
         vazioLabel = new JLabel("Não há filmes cadastrados", SwingConstants.CENTER);
         vazioLabel.setForeground(Color.WHITE);
         vazioLabel.setVisible(true);
@@ -95,6 +97,7 @@ public class MostraFilmes extends JFrame {
                     GridBagConstraints.HORIZONTAL);
         }
 
+        // mostra vazioLabel caso não tenha itens cadastrados
         if (filmes.isEmpty()) {
             addComponente(panel, vazioLabel, 0, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
         }

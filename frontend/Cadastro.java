@@ -35,6 +35,7 @@ public class Cadastro extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
 
+        // instância do banco
         try {
             Manager db = Manager.getInstance();
             this.db = db;
@@ -193,7 +194,7 @@ public class Cadastro extends JFrame {
             String genero = generoComboBox.getSelectedItem().toString();
             int dataLancamento = Integer.parseInt(dataLancamentoTextField.getText());
 
-            // Grava os dados no banco de dados
+            // Grava os dados no banco de dados dependendo da categoria selecionada
             try {
                 if ("Filme".equals(categoria)) {
                     int duracao = Integer.parseInt(duracaoTextField.getText());

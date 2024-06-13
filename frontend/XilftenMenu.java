@@ -28,6 +28,7 @@ public class XilftenMenu extends JFrame {
         getContentPane().setBackground(new Color(229, 9, 14));
         setVisible(true);
 
+        // mostra uma prévia no terminal de títulos cadastrados no banco
         try {
             List<Media> filmes = dbManager.get("films");
             System.out.println("Filmes");
