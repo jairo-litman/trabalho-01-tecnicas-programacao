@@ -22,6 +22,7 @@ public class Inserir extends JFrame {
     private JComboBox<String> categoriaComboBox;
     private JComboBox<String> opcoesComboBox;
     private JComboBox<String> titleComboBox;
+    private JComboBox<String> generoComboBox;
     private List<Media> media;
     Manager db;
 
@@ -106,7 +107,8 @@ public class Inserir extends JFrame {
         addComponente(panel, opcoesComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
 
-        //  e cria um Listener no categoriaComboBox para trazer as opções de obra dependendo da categoria escolhida
+        // e cria um Listener no categoriaComboBox para trazer as opções de obra
+        // dependendo da categoria escolhida
         categoriaComboBox.addActionListener(e -> {
             String selectedCategory = categoriaComboBox.getSelectedItem().toString();
             if ("Filme".equals(selectedCategory)) {
@@ -180,7 +182,55 @@ public class Inserir extends JFrame {
 
         JTextField novaInformacaoTextField = new JTextField(20);
 
-        // Botão para editar registros selecionados na tabela correspondente dependendo da escolha
+        generoComboBox = new JComboBox<>();
+        generoComboBox.setVisible(false);
+
+        // Listener para opcoes
+        opcoesComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) opcoesComboBox.getSelectedItem();
+                try {
+                    if (selectedItem.equals("Gênero") && ("Filme".equals(categoriaComboBox.getSelectedItem().toString())
+                            || "Série".equals(categoriaComboBox.getSelectedItem().toString()))) {
+                        generoComboBox.removeAllItems();
+                        generoComboBox.addItem("Ação");
+                        generoComboBox.addItem("Aventura");
+                        generoComboBox.addItem("Comédia");
+                        generoComboBox.addItem("Drama");
+                        generoComboBox.addItem("Terror");
+                        generoComboBox.addItem("Ficção Científica");
+                        generoComboBox.addItem("Fantasia");
+                        generoComboBox.setSelectedIndex(-1);
+                        novaInformacaoTextField.setVisible(false);
+                        generoComboBox.setVisible(true);
+                    } else if (selectedItem.equals("Gênero")
+                            && "Documentário".equals(categoriaComboBox.getSelectedItem().toString())) {
+                        generoComboBox.removeAllItems();
+                        generoComboBox.addItem("Histórico");
+                        generoComboBox.addItem("Natureza e Ecologia");
+                        generoComboBox.addItem("Ciência");
+                        generoComboBox.addItem("True Crime");
+                        generoComboBox.addItem("Biografia");
+                        generoComboBox.addItem("Política");
+                        generoComboBox.addItem("Sociocultural");
+                        generoComboBox.setSelectedIndex(-1);
+                        novaInformacaoTextField.setVisible(false);
+                        generoComboBox.setVisible(true);
+                    }
+                    else {
+                        novaInformacaoTextField.setVisible(true);
+                        generoComboBox.setVisible(false);
+                    }
+                } catch (NullPointerException nex) {
+                    nex.getStackTrace();
+                }
+
+            }
+        });
+
+        // Botão para editar registros selecionados na tabela correspondente dependendo
+        // da escolha
         JButton editarButton = new JButton("Editar");
         editarButton.setFont(new Font("SansSerif", Font.BOLD, 18));
         editarButton.setForeground(Color.WHITE);
@@ -194,6 +244,12 @@ public class Inserir extends JFrame {
                 String tableName = "";
                 String itemName = titleComboBox.getSelectedItem().toString();
                 String novaInformacao = novaInformacaoTextField.getText();
+                String novaInformacaoGenero = "";
+                try {
+                    novaInformacaoGenero = generoComboBox.getSelectedItem().toString();
+                } catch (NullPointerException nex2) {
+                    nex2.getStackTrace();
+                }
                 String option = opcoesComboBox.getSelectedItem().toString();
 
                 if (itemName.equals("")) {
@@ -237,11 +293,11 @@ public class Inserir extends JFrame {
                     } else if ("Gênero".equals(option)) {
                         try {
                             Film filme = (Film) db.get(tableName, itemName).get(0);
-                            filme.setGenre(novaInformacao);
+                            filme.setGenre(novaInformacaoGenero);
                             db.update(filme);
                             System.out.println("Filme editado!");
                             JOptionPane.showMessageDialog(panel,
-                                    "Filme " + "'" + itemName + "'" + " editado! " + option + ": " + novaInformacao,
+                                    "Filme " + "'" + itemName + "'" + " editado! " + option + ": " + novaInformacaoGenero,
                                     "Aviso",
                                     JOptionPane.INFORMATION_MESSAGE);
                         } catch (Exception e1) {
@@ -303,11 +359,11 @@ public class Inserir extends JFrame {
                     } else if ("Gênero".equals(option)) {
                         try {
                             Series serie = (Series) db.get(tableName, itemName).get(0);
-                            serie.setGenre(novaInformacao);
+                            serie.setGenre(novaInformacaoGenero);
                             db.update(serie);
                             System.out.println("Serie editada!");
                             JOptionPane.showMessageDialog(panel,
-                                    "Serie " + "'" + itemName + "'" + " editada! " + option + ": " + novaInformacao,
+                                    "Serie " + "'" + itemName + "'" + " editada! " + option + ": " + novaInformacaoGenero,
                                     "Aviso",
                                     JOptionPane.INFORMATION_MESSAGE);
                         } catch (Exception e1) {
@@ -371,12 +427,12 @@ public class Inserir extends JFrame {
                     } else if ("Gênero".equals(option)) {
                         try {
                             Documentary doc = (Documentary) db.get(tableName, itemName).get(0);
-                            doc.setGenre(novaInformacao);
+                            doc.setGenre(novaInformacaoGenero);
                             db.update(doc);
                             System.out.println("Documentario editado!");
                             JOptionPane.showMessageDialog(panel,
                                     "Documentario " + "'" + itemName + "'" + " editado! " + option + ": "
-                                            + novaInformacao,
+                                            + novaInformacaoGenero,
                                     "Aviso",
                                     JOptionPane.INFORMATION_MESSAGE);
                         } catch (Exception e1) {
@@ -409,6 +465,8 @@ public class Inserir extends JFrame {
         addComponente(panel, novaInformacaoLabel, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
         addComponente(panel, novaInformacaoTextField, 0, linha++, 1, 1, GridBagConstraints.CENTER,
+                GridBagConstraints.HORIZONTAL);
+        addComponente(panel, generoComboBox, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
         addComponente(panel, editarButton, 0, linha++, 1, 1, GridBagConstraints.CENTER,
                 GridBagConstraints.HORIZONTAL);
