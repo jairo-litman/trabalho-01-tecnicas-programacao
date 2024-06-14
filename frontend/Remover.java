@@ -1,20 +1,33 @@
 package frontend;
 
-import javax.swing.*;
-
-import backend.Documentary;
-import backend.Film;
-import backend.Manager;
-import backend.Media;
-import backend.Series;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import backend.Documentary;
+import backend.Film;
+import backend.Manager;
+import backend.Media;
+import backend.Series;
 
 // Classe principal que cria a janela de remover do catálogo
 public class Remover extends JFrame {
@@ -124,7 +137,6 @@ public class Remover extends JFrame {
         JLabel title = new JLabel("Título da obra que deseja excluir: ");
         title.setFont(sansSerifBoldFont);
         title.setForeground(Color.BLACK);
-
 
         // Botão para apagar registros selecionados com base na categoria
         JButton apagarButton = new JButton("Remover");

@@ -1,16 +1,30 @@
 package frontend;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import backend.Documentary;
 import backend.Film;
 import backend.Manager;
 import backend.Series;
-
-import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 
 // Classe principal que cria a janela de cadastro
 public class Cadastro extends JFrame {
@@ -215,12 +229,14 @@ public class Cadastro extends JFrame {
                     Documentary documentary = new Documentary(titulo, dataLancamento, genero, duracao);
                     db.save(documentary);
                     System.out.println("Documentário cadastrado!");
-                    JOptionPane.showMessageDialog(panel, "Documentário cadastrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Documentário cadastrado!", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
 
             } catch (Exception e2) {
                 e2.getStackTrace();
-                JOptionPane.showMessageDialog(panel, "Erro ao cadastrar item!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(panel, "Erro ao cadastrar item!", "Aviso",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

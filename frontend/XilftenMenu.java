@@ -1,13 +1,30 @@
 package frontend;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import backend.Documentary;
 import backend.Film;
@@ -32,23 +49,23 @@ public class XilftenMenu extends JFrame {
         try {
             List<Media> filmes = dbManager.get("films");
             System.out.println("Filmes");
-            for (Media m: filmes) {
+            for (Media m : filmes) {
                 Film f = (Film) m;
                 System.out.println(f);
             }
             List<Media> series = dbManager.get("series");
             System.out.println("Séries");
-            for (Media s: series) {
+            for (Media s : series) {
                 Series k = (Series) s;
                 System.out.println(k);
             }
             List<Media> documentaries = dbManager.get("documentaries");
             System.out.println("Documentários");
-            for (Media d: documentaries) {
+            for (Media d : documentaries) {
                 Documentary j = (Documentary) d;
                 System.out.println(j);
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

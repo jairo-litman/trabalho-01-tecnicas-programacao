@@ -1,19 +1,37 @@
 package frontend;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import backend.Documentary;
 import backend.Film;
 import backend.Manager;
 import backend.Media;
 import backend.Series;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.sql.SQLException;
-import java.util.List;
 
 // Classe principal que cria a janela de inserção de registros
 public class Inserir extends JFrame {
@@ -217,8 +235,7 @@ public class Inserir extends JFrame {
                         generoComboBox.setSelectedIndex(-1);
                         novaInformacaoTextField.setVisible(false);
                         generoComboBox.setVisible(true);
-                    }
-                    else {
+                    } else {
                         novaInformacaoTextField.setVisible(true);
                         generoComboBox.setVisible(false);
                     }
@@ -297,7 +314,8 @@ public class Inserir extends JFrame {
                             db.update(filme);
                             System.out.println("Filme editado!");
                             JOptionPane.showMessageDialog(panel,
-                                    "Filme " + "'" + itemName + "'" + " editado! " + option + ": " + novaInformacaoGenero,
+                                    "Filme " + "'" + itemName + "'" + " editado! " + option + ": "
+                                            + novaInformacaoGenero,
                                     "Aviso",
                                     JOptionPane.INFORMATION_MESSAGE);
                         } catch (Exception e1) {
@@ -363,7 +381,8 @@ public class Inserir extends JFrame {
                             db.update(serie);
                             System.out.println("Serie editada!");
                             JOptionPane.showMessageDialog(panel,
-                                    "Serie " + "'" + itemName + "'" + " editada! " + option + ": " + novaInformacaoGenero,
+                                    "Serie " + "'" + itemName + "'" + " editada! " + option + ": "
+                                            + novaInformacaoGenero,
                                     "Aviso",
                                     JOptionPane.INFORMATION_MESSAGE);
                         } catch (Exception e1) {

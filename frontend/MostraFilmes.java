@@ -1,15 +1,30 @@
 package frontend;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import backend.Film;
 import backend.Manager;
 import backend.Media;
-
-import java.awt.*;
-import java.io.*;
-import java.sql.SQLException;
-import java.util.List;
 
 // Classe principal que cria a janela de inserção de registros
 public class MostraFilmes extends JFrame {
